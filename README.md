@@ -6,12 +6,7 @@ This repository contains the **core model architecture and trainer code** for th
 To protect the intellectual property of this work during the review process, we currently provide the following core components to verify the feasibility of our proposed framework:
 - `model.py`: Implementation of the **encoder-evolver-decoder architecture** (the core cross-domain fusion innovation of this paper), corresponding to Section X of the manuscript.
 - `trainer.py`: Core training logic and optimization setup, corresponding to Section Y of the manuscript.
-- `mini_test/`: A minimal test dataset (a few MB) to verify the forward pass of the model and 1-2 steps of training.
 - `requirements.txt`: Dependencies required to run the code.
-
-## 🚀 How to Run
-1. Install dependencies: `pip install -r requirements.txt`
-2. Run the minimal test: `python test_mini.py` (or follow the step-by-step instructions in `docs/run_guide.md` if provided)
 
 ## 📅 Full Open-Source Plan
 Upon **acceptance of this manuscript**, we will immediately release the complete content, including:
