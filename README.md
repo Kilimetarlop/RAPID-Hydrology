@@ -4,7 +4,7 @@ This repository contains the **core model architecture and trainer code** for th
 
 ## 📦 Current Content (For Peer Review Only)
 To protect the intellectual property of this work during the review process, we currently provide the following core components to verify the feasibility of our proposed framework:
-- `model.py`: Implementation of the **encoder-evolver-decoder architecture** (the core cross-domain fusion innovation of this paper), corresponding to Section X of the manuscript.
+- `model.py`: Implementation of the **encoder--decoder architecture** (the core cross-domain fusion innovation of this paper), corresponding to the manuscript.
 - `trainer.py`: Core training logic and optimization setup, corresponding to Section Y of the manuscript.
 - `requirements.txt`: Dependencies required to run the code.
 
