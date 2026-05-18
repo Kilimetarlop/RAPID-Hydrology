@@ -17,7 +17,7 @@ Accurate hydrological variable prediction at the basin scale is fundamental to w
 - **Causality-sensitive temporal modeling**: RoPE-based relative position encoding naturally captures the decaying influence of historical events with increasing time lag, incorporating hydrological physical priors
 - **Diffusion-based generative pre-training**: Learns robust, transferable representations by reconstructing progressively perturbed target sequences conditioned on encoded context
 - **Data-scarce basin adaptation**: Transfers pre-trained knowledge to target basins with limited observations via lightweight fine-tuning
-- **Multi-variable joint prediction**: Simultaneously predicts four hydro-meteorological variables — Precipitation (Pre), Mean Temperature (Tm), Wind Speed (Win), and Relative Humidity (Rhu)
+- **Multi-variable joint prediction**: Simultaneously predicts four hydro-meteorological variables — Precipitation (Pre), Mean Temperature (Tm), Wind Speed (Win)
 
 ## Quick Start
 
@@ -192,11 +192,11 @@ RAPID-Hydrology/
 If you find this work useful, please cite our paper:
 
 ```bibtex
-@article{zhang2025rapid,
+@article{zhang2026rapid,
   title={RAPID-Hydrology: Pre-training Hydro-Meteorological Representations with Diffusion for Enhanced Causal Prediction},
   author={Zhang, Xinbin and Tang, Tiantian and Gui, Guan},
   journal={IEEE Transactions on Geoscience and Remote Sensing},
-  year={2025}
+  year={2026}
 }
 ```
 
