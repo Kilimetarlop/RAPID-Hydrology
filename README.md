@@ -1,23 +1,33 @@
-# RAPID-Hydrology: Pre-training Hydro-Meteorological Representations with Diffusion for Enhanced Causal Prediction
+# RAPID-Hydrology: Pretraining Hydro-Meteorological Representations With Diffusion for Enhanced Causal Prediction
 
-**RAPID-Hydrology** (Relative-position Autoregressive Pre-training with Diffusion for Hydrology) is a diffusion-based generative pre-training and transfer learning framework designed for hydrological time series forecasting in data-scarce basins.
+Core implementation of **RAPID-Hydrology**, published in **IEEE Transactions on Geoscience and Remote Sensing**, vol. 64, Art. no. 4212113, 2026.
 
-> Paper: *RAPID-Hydrology: Pre-training Hydro-Meteorological Representations with Diffusion for Enhanced Causal Prediction* (IEEE TGRS)
+**Xinbin Zhang, Tiantian Tang, and Guan Gui**
+
+[IEEE Xplore](https://ieeexplore.ieee.org/document/11684875/) | [DOI](https://doi.org/10.1109/TGRS.2026.3732149) | [Citation](#citation)
 
 ## Overview
 
-Accurate hydrological variable prediction at the basin scale is fundamental to water resource management, yet remains challenging due to complex temporal dependencies and limited in-situ observations. RAPID-Hydrology addresses these challenges through a two-stage learning paradigm:
+RAPID-Hydrology is a large-source/small-target transfer framework for long-horizon hydro-meteorological forecasting in basins with limited local observations. It extends the **TimeDART diffusion-autoregressive backbone** through national-scale hydro-meteorological pretraining, relative-position causal encoding, and sample-efficient target-basin adaptation.
 
-1. **Knowledge Condensation (Pre-training)**: A domain-specific diffusion model, **HydroDiffuser**, is pre-trained on large-scale hydro-meteorological reanalysis data via a conditional denoising reconstruction task. The model employs an *Attenuation-aware Relative Position Causal Encoder (RPCE-Encoder)* with Rotary Position Embedding (RoPE) and causal masking, paired with a Denoising Diffusion Probabilistic Model (DDPM) decoder. After pre-training, the diffusion decoder is discarded, and only the RPCE-Encoder is retained as a transferable feature extractor.
+1. **Knowledge condensation (pretraining).** HydroDiffuser trains a patch-based causal encoder and a conditional diffusion decoder on large-scale national hydro-meteorological sequences. The Relative Position Causal Encoding (RPCE) encoder combines Rotary Position Embedding (RoPE) with causal attention masking. Conditional denoising learns representations for subsequent transfer.
+2. **Knowledge rapid injection (fine-tuning).** The diffusion decoder is discarded. The pretrained encoder and a lightweight prediction head are jointly fine-tuned using the limited Danjiangkou Reservoir basin record. Coupled lookback and forecast windows generate chronologically ordered supervised pairs. Downstream forecasting is deterministic and requires no iterative diffusion sampling.
 
-2. **Knowledge Rapid Injection (Fine-tuning)**: The pre-trained encoder is transferred to the target basin (e.g., Danjiangkou Reservoir Basin) with limited observations. A lightweight prediction head is appended, and the model is fine-tuned using a *Dual Sliding-Window Sampling* strategy to maximize data utilization.
+Here, **causal** means temporally ordered information flow without access to future observations at each encoder position. RoPE encodes relative temporal offsets; it does not by itself impose monotonically decaying attention weights or identify physical causal relations.
 
 ## Key Features
 
-- **Causality-sensitive temporal modeling**: RoPE-based relative position encoding naturally captures the decaying influence of historical events with increasing time lag, incorporating hydrological physical priors
-- **Diffusion-based generative pre-training**: Learns robust, transferable representations by reconstructing progressively perturbed target sequences conditioned on encoded context
-- **Data-scarce basin adaptation**: Transfers pre-trained knowledge to target basins with limited observations via lightweight fine-tuning
-- **Multi-variable joint prediction**: Simultaneously predicts four hydro-meteorological variables — Precipitation (Pre), Mean Temperature (Tm), Wind Speed (Win)
+- **Hydrology-oriented representation transfer:** national-scale source pretraining followed by adaptation to a data-scarce basin.
+- **Relative-position causal encoding:** RoPE represents temporal lags, while causal masking preserves forecasting order.
+- **Diffusion during pretraining:** the denoising objective trains the transferable encoder; downstream inference uses the encoder and prediction head.
+- **Sample-efficient adaptation:** paired lookback and forecast windows extract overlapping supervised examples from a limited local record.
+- **Long-horizon prediction:** the paper evaluates deterministic 365-step forecasts for precipitation, mean temperature, and wind speed.
+
+## Published Results
+
+For the paper's 12-month average **precipitation** results, RAPID-Hydrology reduces MSE, MAE, and RMSE by **98.32%**, **95.77%**, and **86.08%**, respectively, relative to CNN-BiLSTM-MTS, the strongest evaluated from-scratch comparator. These reductions refer to this specific comparison. Additional evaluations include sMAPE, MSSS, ACC, spatial skill maps, and prediction-residual diagnostics.
+
+The repository's CSV interface uses four feature columns (`Pre`, `Tm`, `Win`, and `Rhu`), while the published forecasting results focus on the first three variables. The commands below are configurable usage examples with a 96-step forecast horizon, rather than the complete configuration for reproducing the paper's 365-step experiments.
 
 ## Quick Start
 
@@ -189,16 +199,24 @@ RAPID-Hydrology/
 
 ## Citation
 
-If you find this work useful, please cite our paper:
+If you use this implementation, please cite the published paper:
+
+> X. Zhang, T. Tang, and G. Gui, “RAPID-Hydrology: Pretraining hydro-meteorological representations with diffusion for enhanced causal prediction,” *IEEE Transactions on Geoscience and Remote Sensing*, vol. 64, Art. no. 4212113, 2026, doi: 10.1109/TGRS.2026.3732149.
 
 ```bibtex
 @article{zhang2026rapid,
-  title={RAPID-Hydrology: Pre-training Hydro-Meteorological Representations with Diffusion for Enhanced Causal Prediction},
-  author={Zhang, Xinbin and Tang, Tiantian and Gui, Guan},
-  journal={IEEE Transactions on Geoscience and Remote Sensing},
-  year={2026}
+  author  = {Zhang, Xinbin and Tang, Tiantian and Gui, Guan},
+  title   = {{RAPID-Hydrology}: Pretraining Hydro-Meteorological Representations With Diffusion for Enhanced Causal Prediction},
+  journal = {IEEE Transactions on Geoscience and Remote Sensing},
+  year    = {2026},
+  volume  = {64},
+  pages   = {4212113--4212113},
+  doi     = {10.1109/TGRS.2026.3732149},
+  url     = {https://ieeexplore.ieee.org/document/11684875/}
 }
 ```
+
+The BibTeX page field follows IEEE Xplore's exported article-number format. In formatted prose, use **Art. no. 4212113**.
 
 ## License
 
